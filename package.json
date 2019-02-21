@@ -1,0 +1,23 @@
+{
+  "name": "cpn-pdr-api",
+  "version": "1.0.0",
+  "description": "This package is part of the CPN project. It exposes an API that generates and sends the personal data receipts to the data-subjects.",
+  "main": "src/index.js",
+  "author": "Anthony Garcia <anthony.garcia@digicatapult.org.uk>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "envalid": "^4.2.2",
+    "got": "^9.6.0",
+    "pino": "^5.11.1"
+  },
+  "devDependencies": {
+    "ava": "^1.2.1",
+    "eslint": "^5.14.1",
+    "eslint-config-prettier": "^4.0.0",
+    "eslint-plugin-prettier": "^3.0.1",
+    "nock": "^10.0.6",
+    "nodemon": "^1.18.10",
+    "prettier": "^1.16.4"
+  }
+}
