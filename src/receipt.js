@@ -169,7 +169,7 @@ function createReceipt({
                               .map(
                                 c =>
                                   `<li style="color:#969696"><span style="color:#1E1E1E">${
-                                    c.reason
+                                    c.purpose
                                   }</span></li>`
                               )
                               .join('')}

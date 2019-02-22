@@ -9,15 +9,15 @@ const sampleEvent = {
   consents: [
     {
       description: "Processing of user's location data",
-      reason: 'To recommend content based on user location',
+      purpose: 'To recommend content based on user location',
     },
     {
       description: "Processing of user's time usage data",
-      reason: 'To recommend content based on last user connection',
+      purpose: 'To recommend content based on last user connection',
     },
     {
       description: "Processing of user's preferences data",
-      reason: 'To generate personalised content',
+      purpose: 'To generate personalised content',
     },
   ],
 }

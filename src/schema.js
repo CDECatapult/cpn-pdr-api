@@ -4,12 +4,12 @@ const personalData = Joi.string()
 
 const consent = Joi.object().keys({
   description: Joi.string().required(),
-  reason: Joi.string().required(),
+  purpose: Joi.string().required(),
 })
 
 const schema = Joi.object().keys({
   trigger: Joi.string()
-    .valid('PROFILE_UPDATE')
+    .valid('REGISTRATION', 'PROFILE_UPDATE', 'MANUAL_REQUEST')
     .required(),
   cpn_user_id: Joi.string()
     .alphanum()
