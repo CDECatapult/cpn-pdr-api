@@ -3,8 +3,12 @@
     "es6": true,
     "node": true
   },
-  "extends": ["eslint:recommended", "plugin:prettier/recommended"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:prettier/recommended",
+    "plugin:ava/recommended"
+  ],
   "parserOptions": {
-    "ecmaVersion": 2018
+    "ecmaVersion": 2019
   }
 }
