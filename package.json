@@ -8,6 +8,7 @@
   "private": true,
   "scripts": {
     "start": "micro",
+    "dev": "micro-dev",
     "preview": "micro-dev -p 5555 preview",
     "lint": "eslint .",
     "test": "ava"

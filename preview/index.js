@@ -7,7 +7,7 @@ const sampleEvent = {
   user_name: 'Anthony Garcia',
   given_personal_data: [
     { description: 'Email address', purpose: 'To contact the user' },
-    { description: 'Name', purpose: '...' },
+    { description: 'Name', purpose: 'Address the user in a more personal way' },
     {
       description: 'Twitter handle',
       purpose: 'Get further insight on user preferences',

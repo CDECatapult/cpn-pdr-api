@@ -45,7 +45,7 @@ async function handleRequest(req, res) {
     return send(res, 502, "The receipt couldn't be sent", err)
   }
 
-  return event
+  return { success: true, time: new Date().toISOString() }
 }
 
 module.exports = async (req, res) => {
