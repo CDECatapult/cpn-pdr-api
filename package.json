@@ -6,9 +6,16 @@
   "author": "Anthony Garcia <anthony.garcia@digicatapult.org.uk>",
   "license": "UNLICENSED",
   "private": true,
+  "scripts": {
+    "start": "micro src/server.js",
+    "lint": "eslint src",
+    "test": "ava"
+  },
   "dependencies": {
     "envalid": "^4.2.2",
     "got": "^9.6.0",
+    "joi": "^14.3.1",
+    "micro": "^9.3.3",
     "pino": "^5.11.1"
   },
   "devDependencies": {
@@ -18,6 +25,7 @@
     "eslint-plugin-prettier": "^3.0.1",
     "nock": "^10.0.6",
     "nodemon": "^1.18.10",
-    "prettier": "^1.16.4"
+    "prettier": "^1.16.4",
+    "test-listen": "^1.1.0"
   }
 }
