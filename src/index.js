@@ -2,6 +2,7 @@ const { json, send, createError } = require('micro')
 const Joi = require('joi')
 const logger = require('./logger')
 const schema = require('./schema')
+const createReceipt = require('./receipt')
 
 async function handleRequest(req, res) {
   logger.info('Parsing event...')
@@ -23,7 +24,7 @@ async function handleRequest(req, res) {
     logger.info('The event match the schema', result)
   }
 
-  return js
+  return event
 }
 
 module.exports = async (req, res) => {
@@ -37,6 +38,11 @@ module.exports = async (req, res) => {
     case 'OPTIONS':
       return send(res, 204, '')
     default:
-      return send(res, 405, `Expected: POST, got: ${req.method}`)
+      logger.error(`Invalid method, expected: POST, got: ${req.method}`)
+      return send(
+        res,
+        405,
+        `Invalid method, expected: POST, got: ${req.method}`
+      )
   }
 }

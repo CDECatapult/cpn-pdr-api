@@ -1,4 +1,5 @@
 process.env.LOG_LEVEL = 'silent'
+process.env.MAIL_FROM = 'sender@projectcpn.eu'
 
 const micro = require('micro')
 const test = require('ava')
@@ -65,7 +66,7 @@ test('Handle input that does not match the schema', async t => {
   service.close()
 })
 
-test.skip('Send PDR after user updated their profile', async t => {
+test('Send PDR after user updated their profile', async t => {
   const service = micro(api)
   const url = await listen(service)
   const res = await got.post(url, {
@@ -73,7 +74,7 @@ test.skip('Send PDR after user updated their profile', async t => {
     json: true,
   })
 
-  t.deepEqual(res.statusCode, 400)
+  t.deepEqual(res.statusCode, 200)
 
   service.close()
 })

@@ -7,8 +7,8 @@ module.exports = cleanEnv(process.env, {
   // }),
   // MAILGUN_DOMAIN: host({ example: 'projectcpn.eu' }),
   // MAILING_LIST_ADDRESS: email({ example: 'pdr@projectcpn.eu' }),
-  // MAIL_FROM: str({
-  //   example: 'CPN <postmaster@projectcpn.eu>',
-  // }),
+  MAIL_FROM: str({
+    example: 'CPN <postmaster@projectcpn.eu>',
+  }),
   // MAIL_SUBJECT: str({ default: 'Your personal data receipt' }),
 })

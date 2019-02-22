@@ -12,6 +12,7 @@
     "test": "ava"
   },
   "dependencies": {
+    "dedent-js": "^1.0.1",
     "envalid": "^4.2.2",
     "got": "^9.6.0",
     "joi": "^14.3.1",
