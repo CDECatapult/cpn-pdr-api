@@ -41,7 +41,7 @@ async function handleRequest(req, res) {
     const mail = await mailgun.post(`/${env.MAILGUN_DOMAIN}/messages`, { body })
     logger.info('Receipt sent', mail.body)
   } catch (err) {
-    console.error("The receipt couldn't be sent", err)
+    logger.error("The receipt couldn't be sent", err)
     throw createError(502, "The receipt couldn't be sent", err)
   }
 

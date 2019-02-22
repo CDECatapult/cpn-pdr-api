@@ -1,7 +1,8 @@
-const { cleanEnv, email, host, num, str, url } = require('envalid')
+const { cleanEnv, str, url } = require('envalid')
 
 module.exports = cleanEnv(process.env, {
   LOG_LEVEL: str({ default: 'info', devDefault: 'debug' }),
+  MAILGUN_API_URL: url({ default: 'https://api.mailgun.net/v3' }),
   MAILGUN_API_KEY: str({
     example: '94b00922dfa91f2fc1573896c71e373d-47217ca8-837a15ba',
   }),

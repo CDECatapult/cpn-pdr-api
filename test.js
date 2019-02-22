@@ -1,8 +1,12 @@
 process.env.LOG_LEVEL = 'silent'
-process.env.MAIL_FROM = 'sender@projectcpn.eu'
+process.env.MAILGUN_API_URL = 'http://mailgun-api'
+process.env.MAILGUN_API_KEY = 'fakeAPI'
+process.env.MAILGUN_DOMAIN = 'sandbox.mailgun.org'
+process.env.MAIL_FROM = 'CPN <postmaster@projectcpn.eu>'
 
 const micro = require('micro')
 const test = require('ava')
+const nock = require('nock')
 const listen = require('test-listen')
 const got = require('got')
 const api = require('./src')
@@ -27,6 +31,8 @@ const baseEvent = {
     },
   ],
 }
+
+test.afterEach.always(() => nock.cleanAll())
 
 test('Does not accept GET requests', async t => {
   const service = micro(api)
@@ -67,6 +73,15 @@ test('Handle input that does not match the schema', async t => {
 })
 
 test('Send PDR after user updated their profile', async t => {
+  const mailgun = nock('http://mailgun-api')
+    .filteringRequestBody(/html=[^&]*/g, 'html=XXX')
+    .post('/sandbox.mailgun.org/messages', {
+      from: 'CPN <postmaster@projectcpn.eu>',
+      subject: 'Your personal data receipt',
+      to: baseEvent.cpn_registered_email,
+      html: 'XXX',
+    })
+    .reply(200, { status: 'SENT' })
   const service = micro(api)
   const url = await listen(service)
   const res = await got.post(url, {
@@ -74,6 +89,7 @@ test('Send PDR after user updated their profile', async t => {
     json: true,
   })
 
+  t.is(mailgun.isDone(), true)
   t.deepEqual(res.statusCode, 200)
 
   service.close()
