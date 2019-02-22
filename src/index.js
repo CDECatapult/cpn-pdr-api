@@ -19,10 +19,14 @@ async function handleRequest(req, res) {
   const result = Joi.validate(event, schema)
   if (result.error !== null) {
     logger.error('The json input does not match the schema', result)
-    throw createError(400, 'The json input does not match the schema')
+    return send(res, 400, 'The json input does not match the schema')
   } else {
     logger.info('The event match the schema', result)
   }
+
+  logger.info('Creating receipt...')
+  const receipt = createReceipt(event)
+  logger.info('Receipt created')
 
   return event
 }
