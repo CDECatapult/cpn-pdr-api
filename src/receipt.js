@@ -3,7 +3,21 @@ const env = require('./env')
 
 const sender = env.MAIL_FROM
 
+function header(trigger) {
+  switch (trigger) {
+    case 'REGISTRATION':
+      return 'When you recently joined the CPN platform you gave us some of your personal information.'
+    case 'PROFILE_UPDATE':
+      return 'You are receiving this email because you recently updated your personal information.'
+    case 'MANUAL_REQUEST':
+      return 'You are receiving this email because you requested a receipt of the usage of your personal information.'
+    default:
+      return ''
+  }
+}
+
 function createReceipt({
+  trigger,
   user_name,
   cpn_user_id,
   given_personal_data,
@@ -43,10 +57,7 @@ function createReceipt({
           <tr>
             <td colspan="2">
               <p>Dear ${user_name || 'CPN user'},</p>
-              <p>
-                When you recently joined the CPN platform you gave us some of
-                your personal information.
-              </p>
+              <p>${header(trigger)}</p>
               <p>
                 Below is a receipt of your personal information to show what we
                 collected, and how we use it; we use this receipt to show how
