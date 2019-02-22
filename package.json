@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "start": "micro src/server.js",
+    "start": "micro",
     "preview": "micro-dev -p 5555 preview",
     "lint": "eslint src",
     "test": "ava"
