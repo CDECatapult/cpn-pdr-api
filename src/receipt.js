@@ -9,6 +9,13 @@ function createReceipt({
   given_personal_data,
   consents,
 }) {
+  const date = new Date().toGMTString()
+  const allData = given_personal_data.concat(consents)
+  const shared = allData.filter(d => d.shared).map(d => d.shared)
+  if (!shared.length) {
+    shared.push("We don't share your information with any third-party.")
+  }
+
   return html`
     <!DOCTYPE html>
     <html lang="en">
@@ -31,7 +38,7 @@ function createReceipt({
                 src="https://static1.squarespace.com/static/595cd20e1b10e30e621770e9/t/59fae594085229169f34c6c3/1530174350046/?format=100w"
               />
             </td>
-            <td align="right">${new Date().toGMTString()}</td>
+            <td align="right">${date}</td>
           </tr>
           <tr>
             <td colspan="2">
@@ -97,7 +104,9 @@ function createReceipt({
                             ${given_personal_data
                               .map(
                                 pi =>
-                                  `<li style="color:#969696"><span style="color:#1E1E1E">${pi}</span></li>`
+                                  `<li style="color:#969696"><span style="color:#1E1E1E">${
+                                    pi.description
+                                  }</span></li>`
                               )
                               .join('')}
                           </ul>
@@ -165,7 +174,7 @@ function createReceipt({
                         </td>
                         <td>
                           <ul>
-                            ${consents
+                            ${allData
                               .map(
                                 c =>
                                   `<li style="color:#969696"><span style="color:#1E1E1E">${
@@ -205,12 +214,10 @@ function createReceipt({
                                 ><strong>Sharing</strong></span
                               >
                             </li>
-                            <li style="color:#969696">
-                              <span style="color:#1E1E1E"
-                                >We don't share your information with any
-                                third-party.</span
-                              >
-                            </li>
+                            ${shared.map(
+                              s =>
+                                `<li style="color:#969696"><span style="color:#1E1E1E">${s}</span></li>`
+                            )}
                           </ul>
                         </td>
                       </tr>

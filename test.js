@@ -15,7 +15,15 @@ const baseEvent = {
   cpn_user_id: '5b222556f8ac34000a1d1562',
   cpn_registered_email: 'anthony.garcia+u3@digicatapult.org.uk',
   user_name: 'Anthony Garcia',
-  given_personal_data: ['Email address', 'Name', 'Twitter handle'],
+  given_personal_data: [
+    { description: 'Email address', purpose: 'To contact the user' },
+    { description: 'Name', purpose: '...' },
+    {
+      description: 'Twitter handle',
+      purpose: 'Get further insight on user preferences',
+      shared: 'TruthNest',
+    },
+  ],
   consents: [
     {
       description: "Processing of user's location data",

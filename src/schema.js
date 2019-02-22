@@ -1,10 +1,9 @@
 const Joi = require('joi')
 
-const personalData = Joi.string()
-
-const consent = Joi.object().keys({
+const dataProcessed = Joi.object().keys({
   description: Joi.string().required(),
   purpose: Joi.string().required(),
+  shared: Joi.string(),
 })
 
 const schema = Joi.object().keys({
@@ -19,10 +18,10 @@ const schema = Joi.object().keys({
     .required(),
   user_name: Joi.string(),
   given_personal_data: Joi.array()
-    .items(personalData)
+    .items(dataProcessed)
     .required(),
   consents: Joi.array()
-    .items(consent)
+    .items(dataProcessed)
     .required(),
 })
 
