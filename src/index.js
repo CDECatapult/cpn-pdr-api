@@ -1,8 +1,10 @@
 const { json, send, createError } = require('micro')
 const Joi = require('joi')
+const env = require('./env')
 const logger = require('./logger')
 const schema = require('./schema')
 const createReceipt = require('./receipt')
+const mailgun = require('./mailgun')
 
 async function handleRequest(req, res) {
   logger.info('Parsing event...')
@@ -12,7 +14,7 @@ async function handleRequest(req, res) {
     logger.info('Event parsed')
   } catch (err) {
     logger.error('Malformed json', err)
-    throw createError(400, 'Malformed json', err)
+    return send(res, 400, 'Malformed json', err)
   }
 
   logger.info('Validating event against schema...')
@@ -27,6 +29,21 @@ async function handleRequest(req, res) {
   logger.info('Creating receipt...')
   const receipt = createReceipt(event)
   logger.info('Receipt created')
+
+  logger.info('Sending receipt...')
+  const body = {
+    from: env.MAIL_FROM,
+    subject: env.MAIL_SUBJECT,
+    to: event.cpn_registered_email,
+    html: receipt,
+  }
+  try {
+    const mail = await mailgun.post(`/${env.MAILGUN_DOMAIN}/messages`, { body })
+    logger.info('Receipt sent', mail.body)
+  } catch (err) {
+    console.error("The receipt couldn't be sent", err)
+    throw createError(502, "The receipt couldn't be sent", err)
+  }
 
   return event
 }
