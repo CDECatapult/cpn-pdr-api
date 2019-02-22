@@ -1,4 +1,4 @@
-const { json, send, createError } = require('micro')
+const { json, send } = require('micro')
 const Joi = require('joi')
 const env = require('./env')
 const logger = require('./logger')
@@ -42,7 +42,7 @@ async function handleRequest(req, res) {
     logger.info('Receipt sent', mail.body)
   } catch (err) {
     logger.error("The receipt couldn't be sent", err)
-    throw createError(502, "The receipt couldn't be sent", err)
+    return send(res, 502, "The receipt couldn't be sent", err)
   }
 
   return event
