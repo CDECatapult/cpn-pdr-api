@@ -8,6 +8,7 @@
   "private": true,
   "scripts": {
     "start": "micro src/server.js",
+    "preview": "micro-dev -p 5555 preview",
     "lint": "eslint src",
     "test": "ava"
   },
@@ -24,6 +25,7 @@
     "eslint": "^5.14.1",
     "eslint-config-prettier": "^4.0.0",
     "eslint-plugin-prettier": "^3.0.1",
+    "micro-dev": "^3.0.0",
     "nock": "^10.0.6",
     "nodemon": "^1.18.10",
     "prettier": "^1.16.4",
