@@ -1,4 +1,9 @@
-const { cleanEnv, host, str, url } = require('envalid')
+const { cleanEnv, makeValidator, host, str, url } = require('envalid')
+
+const color = makeValidator(c => {
+  if (/^#(?:[0-9a-fA-F]{3}){1,2}$/.test(c)) return c.toLowerCase()
+  else throw new Error('Expected a string in hex color format')
+})
 
 module.exports = cleanEnv(process.env, {
   LOG_LEVEL: str({ default: 'info', devDefault: 'debug' }),
@@ -11,4 +16,6 @@ module.exports = cleanEnv(process.env, {
     example: 'CPN <postmaster@projectcpn.eu>',
   }),
   MAIL_SUBJECT: str({ default: 'Your personal data receipt' }),
+  THEME_PRIMARY_COLOR: color({ default: '#BE005A' }),
+  THEME_ACCENT_COLOR: color({ default: '#FF3C7D' }),
 })

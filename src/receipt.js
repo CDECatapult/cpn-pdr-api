@@ -64,7 +64,7 @@ function createReceipt({
                 individuals and organisations can track and manage the use of
                 personal data.
                 <a
-                  style="color:#FF3C7D; text-decoration: none"
+                  style="color:${env.THEME_ACCENT_COLOR}; text-decoration: none"
                   href="https://www.projectcpn.eu"
                   >Find out more
                 </a>
@@ -91,7 +91,7 @@ function createReceipt({
                 </tr>
                 <tr>
                   <td style="padding-bottom:15px" colspan="2">
-                    <hr COLOR="#FF3C7D" size="1" />
+                    <hr COLOR="${env.THEME_ACCENT_COLOR}" size="1" />
                   </td>
                 </tr>
                 <tr>
@@ -166,7 +166,11 @@ function createReceipt({
                   : ''}
                 <tr>
                   <td style="padding:15px 0" colspan="2">
-                    <hr width="15%" COLOR="#FF3C7D" size="1" />
+                    <hr
+                      width="15%"
+                      COLOR="${env.THEME_ACCENT_COLOR}"
+                      size="1"
+                    />
                   </td>
                 </tr>
                 <tr>
@@ -201,7 +205,11 @@ function createReceipt({
                 </tr>
                 <tr>
                   <td style="padding:15px 0" colspan="2">
-                    <hr width="15%" COLOR="#FF3C7D" size="1" />
+                    <hr
+                      width="15%"
+                      COLOR="${env.THEME_ACCENT_COLOR}"
+                      size="1"
+                    />
                   </td>
                 </tr>
                 <tr>
@@ -280,7 +288,7 @@ function createReceipt({
                                 information, delete the information or port your
                                 information to another service, please
                                 <a
-                                  style="color:#FF3C7D; text-decoration: none"
+                                  style="color:${env.THEME_ACCENT_COLOR}; text-decoration: none"
                                   href="https://www.projectcpn.eu"
                                   target="_top"
                                   >send us a request</a
@@ -296,7 +304,11 @@ function createReceipt({
                 </tr>
                 <tr>
                   <td style="padding:15px 0" colspan="2">
-                    <hr width="15%" COLOR="#FF3C7D" size="1" />
+                    <hr
+                      width="15%"
+                      COLOR="${env.THEME_ACCENT_COLOR}"
+                      size="1"
+                    />
                   </td>
                 </tr>
                 <tr>
@@ -317,7 +329,7 @@ function createReceipt({
               <p>
                 <a
                   href="https://www.projectcpn.eu"
-                  style="font-weight: bold;padding: 0px;background-color: #BE005A;color: #ffffff;border: 11px solid #BE005A;border-radius: 5px;word-wrap: break-word;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;text-decoration: none;"
+                  style="font-weight: bold;padding: 0px;background-color: ${env.THEME_PRIMARY_COLOR};color: #ffffff;border: 11px solid ${env.THEME_PRIMARY_COLOR};border-radius: 5px;word-wrap: break-word;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;text-decoration: none;"
                   target="_blank"
                   title="How to enter the UXUK Awards"
                   >Find out more</a
@@ -326,7 +338,9 @@ function createReceipt({
             </td>
           </tr>
           <tr>
-            <td colspan="2"><hr width="80%" COLOR="#FF3C7D" size="1" /></td>
+            <td colspan="2">
+              <hr width="80%" COLOR="${env.THEME_ACCENT_COLOR}" size="1" />
+            </td>
           </tr>
           <tr>
             <td colspan="2">
@@ -342,14 +356,16 @@ function createReceipt({
           <tr>
             <td colspan="2" height="50px"></td>
           </tr>
-          <tr style="background-color:#BE005A">
+          <tr style="background-color:${env.THEME_PRIMARY_COLOR}">
             <td align="center" colspan="2">
               <img
                 src="https://static1.squarespace.com/static/595cd20e1b10e30e621770e9/t/59fae594085229169f34c6c3/1530174350046/?format=100w"
               />
             </td>
           </tr>
-          <tr style="background-color:#BE005A; color:#FFFFFF">
+          <tr
+            style="background-color:${env.THEME_PRIMARY_COLOR}; color:#FFFFFF"
+          >
             <td align="center" colspan="2" style="font-size:0.8em;">
               <strong>The CPN platform</strong><br />
               Company Registration number: XXX<br />
