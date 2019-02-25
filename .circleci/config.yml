@@ -18,6 +18,12 @@ jobs:
           name: Install Packages
           command: yarn install --frozen-lockfile
 
+      - save_cache:
+          name: Save node_modules cache
+          key: v1-node-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
+
       - run:
           name: Lint javascript files
           command: yarn lint
@@ -25,9 +31,3 @@ jobs:
       - run:
           name: Run tests
           command: yarn test
-
-      - save_cache:
-          name: Save node_modules cache
-          key: v1-node-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
-          paths:
-            - node_modules
