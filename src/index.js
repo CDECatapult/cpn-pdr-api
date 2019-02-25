@@ -1,5 +1,6 @@
 const { json, send } = require('micro')
 const Joi = require('joi')
+const nanoid = require('nanoid')
 const env = require('./env')
 const logger = require('./logger')
 const schema = require('./schema')
@@ -7,30 +8,30 @@ const createReceipt = require('./receipt')
 const mailgun = require('./mailgun')
 
 async function handleRequest(req, res) {
-  logger.info('Parsing event...')
+  logger.info(req.requestId, 'Parsing event...')
   let event
   try {
     event = await json(req)
-    logger.info('Event parsed')
+    logger.info(req.requestId, 'Event parsed')
   } catch (err) {
-    logger.error('Malformed json', err)
+    logger.error(req.requestId, 'Failed to parse the json', err)
     return send(res, 400, 'Malformed json', err)
   }
 
-  logger.info('Validating event against schema...')
+  logger.info(req.requestId, 'Validating event against schema...')
   const result = Joi.validate(event, schema)
-  if (result.error !== null) {
-    logger.error('The json input does not match the schema', result)
-    return send(res, 400, 'The json input does not match the schema')
+  if (result.error === null) {
+    logger.info(req.requestId, 'Event validated')
   } else {
-    logger.info('The event match the schema', result)
+    logger.error(req.requestId, 'Failed to validate the event', result.error)
+    return send(res, 400, 'The json input does not match the schema')
   }
 
-  logger.info('Creating receipt...')
+  logger.info(req.requestId, 'Creating receipt...')
   const receipt = createReceipt(event)
-  logger.info('Receipt created')
+  logger.info(req.requestId, 'Receipt created')
 
-  logger.info('Sending receipt...')
+  logger.info(req.requestId, 'Sending receipt...')
   const body = {
     from: env.MAIL_FROM,
     subject: env.MAIL_SUBJECT,
@@ -39,9 +40,9 @@ async function handleRequest(req, res) {
   }
   try {
     const mail = await mailgun.post(`/${env.MAILGUN_DOMAIN}/messages`, { body })
-    logger.info('Receipt sent', mail.body)
+    logger.info(req.requestId, 'Receipt sent', mail.body)
   } catch (err) {
-    logger.error("The receipt couldn't be sent", err)
+    logger.error(req.requestId, 'Failed to send the receipt', err)
     return send(res, 502, "The receipt couldn't be sent", err)
   }
 
@@ -49,9 +50,24 @@ async function handleRequest(req, res) {
 }
 
 module.exports = async (req, res) => {
+  req.requestId = nanoid()
+
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
   res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, POST')
+  res.setHeader('X-Request-ID', req.requestId)
+
+  logger.info(
+    req.requestId,
+    `Request ${req.method} from ${req.connection.remoteAddress}`
+  )
+
+  res.on('finish', () => {
+    logger.info(
+      req.requestId,
+      `Response ${res.statusCode} ${res.statusMessage}`
+    )
+  })
 
   switch (req.method.toUpperCase()) {
     case 'POST':
@@ -59,7 +75,6 @@ module.exports = async (req, res) => {
     case 'OPTIONS':
       return send(res, 204, '')
     default:
-      logger.error(`Invalid method, expected: POST, got: ${req.method}`)
       return send(
         res,
         405,
