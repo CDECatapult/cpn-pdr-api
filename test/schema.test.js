@@ -253,7 +253,7 @@ test('given_personal_data contains description, purpose and possibly shared', t 
     cpn_registered_email: 'anthony.garcia+u3@digicatapult.org.uk',
     user_name: null,
     given_personal_data: [
-      { description: 'Bar', purpose: 'Foo', shared: 'Baz' },
+      { description: 'Bar', purpose: 'Foo', shared_with: ['Baz'] },
     ],
     consents: [],
   }
@@ -403,7 +403,7 @@ test('consent contains description, purpose and possibly shared', t => {
     cpn_registered_email: 'anthony.garcia+u3@digicatapult.org.uk',
     user_name: null,
     given_personal_data: [],
-    consents: [{ description: 'Bar', purpose: 'Foo', shared: 'Baz' }],
+    consents: [{ description: 'Bar', purpose: 'Foo', shared_with: ['Baz'] }],
   }
 
   const res5 = Joi.validate(withShared, schema)

@@ -3,7 +3,7 @@ const Joi = require('joi')
 const dataProcessed = Joi.object().keys({
   description: Joi.string().required(),
   purpose: Joi.string().required(),
-  shared: Joi.string(),
+  shared_with: Joi.array().items(Joi.string().required()),
 })
 
 const schema = Joi.object().keys({

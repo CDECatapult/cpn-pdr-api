@@ -21,7 +21,7 @@ const baseEvent = {
     {
       description: 'Twitter handle',
       purpose: 'Get further insight on user preferences',
-      shared: 'TruthNest',
+      shared_with: ['TruthNest'],
     },
   ],
   consents: [

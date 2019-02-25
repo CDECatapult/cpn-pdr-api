@@ -27,7 +27,7 @@ It expects a `POST` http request with a JSON input in the following format:
     {
       "description": "Twitter handle",
       "purpose": "Get further insight on user preferences",
-      "shared": "TruthNest"
+      "shared_with": ["TruthNest"]
     } // The shared key is only present for the data that are shared with 3rd-party
   ],
 
