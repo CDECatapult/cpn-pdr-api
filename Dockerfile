@@ -23,6 +23,7 @@ COPY .prettierrc .
 RUN yarn lint
 
 # Test project
+COPY test test
 COPY test.js .
 RUN yarn test
 
