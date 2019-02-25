@@ -4,7 +4,7 @@ This is a micro-service responsible of sending personal data receipts to data-su
 
 ## Request
 
-It expect a `POST` http request with a JSON input in the following format:
+It expects a `POST` http request with a JSON input in the following format:
 
 ```js
 {
