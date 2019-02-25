@@ -335,3 +335,149 @@ test('given_personal_data contains description, purpose and possibly shared', t 
   const res11 = Joi.validate(emptyDescription, schema)
   t.not(res11.error, null)
 })
+
+test('consent contains description, purpose and possibly shared', t => {
+  const noArray = {
+    trigger: 'REGISTRATION',
+    cpn_user_id: '5b222556f8ac34000a1d1562',
+    cpn_registered_email: 'anthony.garcia+u3@digicatapult.org.uk',
+    user_name: null,
+    given_personal_data: [],
+    consents: null,
+  }
+
+  const res0 = Joi.validate(noArray, schema)
+  t.not(res0.error, null)
+
+  const empty = {
+    trigger: 'REGISTRATION',
+    cpn_user_id: '5b222556f8ac34000a1d1562',
+    cpn_registered_email: 'anthony.garcia+u3@digicatapult.org.uk',
+    user_name: null,
+    given_personal_data: [],
+    consents: [],
+  }
+
+  const res1 = Joi.validate(empty, schema)
+  t.is(res1.error, null)
+
+  const emptyObject = {
+    trigger: 'REGISTRATION',
+    cpn_user_id: '5b222556f8ac34000a1d1562',
+    cpn_registered_email: 'anthony.garcia+u3@digicatapult.org.uk',
+    user_name: null,
+    given_personal_data: [],
+    consents: [{}],
+  }
+
+  const res2 = Joi.validate(emptyObject, schema)
+  t.not(res2.error, null)
+
+  const onlyDescription = {
+    trigger: 'REGISTRATION',
+    cpn_user_id: '5b222556f8ac34000a1d1562',
+    cpn_registered_email: 'anthony.garcia+u3@digicatapult.org.uk',
+    user_name: null,
+    given_personal_data: [],
+    consents: [{ description: 'Foo' }],
+  }
+
+  const res3 = Joi.validate(onlyDescription, schema)
+  t.not(res3.error, null)
+
+  const onlyPurpose = {
+    trigger: 'REGISTRATION',
+    cpn_user_id: '5b222556f8ac34000a1d1562',
+    cpn_registered_email: 'anthony.garcia+u3@digicatapult.org.uk',
+    user_name: null,
+    given_personal_data: [],
+    consents: [{ purpose: 'Foo' }],
+  }
+
+  const res4 = Joi.validate(onlyPurpose, schema)
+  t.not(res4.error, null)
+
+  const withShared = {
+    trigger: 'REGISTRATION',
+    cpn_user_id: '5b222556f8ac34000a1d1562',
+    cpn_registered_email: 'anthony.garcia+u3@digicatapult.org.uk',
+    user_name: null,
+    given_personal_data: [],
+    consents: [{ description: 'Bar', purpose: 'Foo', shared: 'Baz' }],
+  }
+
+  const res5 = Joi.validate(withShared, schema)
+  t.is(res5.error, null)
+
+  const withoutShared = {
+    trigger: 'REGISTRATION',
+    cpn_user_id: '5b222556f8ac34000a1d1562',
+    cpn_registered_email: 'anthony.garcia+u3@digicatapult.org.uk',
+    user_name: null,
+    given_personal_data: [],
+    consents: [{ description: 'Bar', purpose: 'Foo' }],
+  }
+
+  const res6 = Joi.validate(withoutShared, schema)
+  t.is(res6.error, null)
+
+  const randomCrap = {
+    trigger: 'REGISTRATION',
+    cpn_user_id: '5b222556f8ac34000a1d1562',
+    cpn_registered_email: 'anthony.garcia+u3@digicatapult.org.uk',
+    user_name: null,
+    given_personal_data: [],
+    consents: [{ description: 'Bar', purpose: 'Foo', random: 'Crap' }],
+  }
+
+  const res7 = Joi.validate(randomCrap, schema)
+  t.not(res7.error, null)
+
+  const nullDescription = {
+    trigger: 'REGISTRATION',
+    cpn_user_id: '5b222556f8ac34000a1d1562',
+    cpn_registered_email: 'anthony.garcia+u3@digicatapult.org.uk',
+    user_name: null,
+    given_personal_data: [],
+    consents: [{ description: null, purpose: 'Foo' }],
+  }
+
+  const res8 = Joi.validate(nullDescription, schema)
+  t.not(res8.error, null)
+
+  const nullPurpose = {
+    trigger: 'REGISTRATION',
+    cpn_user_id: '5b222556f8ac34000a1d1562',
+    cpn_registered_email: 'anthony.garcia+u3@digicatapult.org.uk',
+    user_name: null,
+    given_personal_data: [],
+    consents: [{ description: 'Bar', purpose: null }],
+  }
+
+  const res9 = Joi.validate(nullPurpose, schema)
+  t.not(res9.error, null)
+
+  const emptyPurpose = {
+    trigger: 'REGISTRATION',
+    cpn_user_id: '5b222556f8ac34000a1d1562',
+    cpn_registered_email: 'anthony.garcia+u3@digicatapult.org.uk',
+    user_name: null,
+    given_personal_data: [],
+    consents: [{ description: 'Bar', purpose: '' }],
+  }
+
+  const res10 = Joi.validate(emptyPurpose, schema)
+  t.not(res10.error, null)
+
+  const emptyDescription = {
+    trigger: 'REGISTRATION',
+    cpn_user_id: '5b222556f8ac34000a1d1562',
+    cpn_registered_email: 'anthony.garcia+u3@digicatapult.org.uk',
+    user_name: null,
+    given_personal_data: [],
+    consents: [{ description: '', purpose: 'Bar' }],
+  }
+
+  const res11 = Joi.validate(emptyDescription, schema)
+  t.not(res11.error, null)
+})
