@@ -48,6 +48,7 @@ test('Accept OPTIONS requests', async t => {
   const res = await got(url, { method: 'OPTIONS', throwHttpErrors: false })
 
   t.is(res.statusCode, 204)
+  t.is(res.body, '')
   t.true(res.headers['x-request-id'] != null)
 
   service.close()
@@ -56,9 +57,10 @@ test('Accept OPTIONS requests', async t => {
 test('Does not accept GET requests', async t => {
   const service = micro(api)
   const url = await listen(service)
-  const res = await got(url, { throwHttpErrors: false })
+  const res = await got(url, { throwHttpErrors: false, json: true })
 
   t.is(res.statusCode, 405)
+  t.is(res.body.error, 'Invalid method, expected: POST, got: GET')
 
   service.close()
 })
@@ -72,7 +74,9 @@ test('Handle malformed json', async t => {
     throwHttpErrors: false,
   })
 
+  const { error } = JSON.parse(res.body)
   t.is(res.statusCode, 400)
+  t.is(error, 'The input is not a valid JSON')
 
   service.close()
 })
@@ -87,6 +91,7 @@ test('Handle input that does not match the schema', async t => {
   })
 
   t.is(res.statusCode, 400)
+  t.is(res.body.error, 'The json input does not match the schema')
 
   service.close()
 })
@@ -100,7 +105,10 @@ test('Send PDR after user updated their profile', async t => {
       to: baseEvent.cpn_registered_email,
       html: 'XXX',
     })
-    .reply(200, { status: 'SENT' })
+    .reply(200, {
+      id: '<20190223135858.1.65B2E1E6374895F0@sandbox.mailgun.org>',
+      message: 'Queued. Thank you.',
+    })
   const service = micro(api)
   const url = await listen(service)
   const res = await got.post(url, {
@@ -110,6 +118,9 @@ test('Send PDR after user updated their profile', async t => {
 
   t.is(mailgun.isDone(), true)
   t.is(res.statusCode, 200)
+  t.is(res.body.error, undefined)
+  t.is(res.body.message, 'Queued. Thank you.')
+  t.is(res.body.id, '<20190223135858.1.65B2E1E6374895F0@sandbox.mailgun.org>')
 
   service.close()
 })

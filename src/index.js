@@ -15,7 +15,7 @@ async function handleRequest(req, res) {
     logger.info(req.requestId, 'Event parsed')
   } catch (err) {
     logger.error(req.requestId, 'Failed to parse the json', err)
-    return send(res, 400, 'Malformed json')
+    return send(res, 400, { error: 'The input is not a valid JSON' })
   }
 
   logger.info(req.requestId, 'Validating event against schema...')
@@ -24,7 +24,7 @@ async function handleRequest(req, res) {
     logger.info(req.requestId, 'Event validated')
   } else {
     logger.error(req.requestId, 'Failed to validate the event', result.error)
-    return send(res, 400, 'The json input does not match the schema')
+    return send(res, 400, { error: 'The json input does not match the schema' })
   }
 
   logger.info(req.requestId, 'Creating receipt...')
@@ -38,15 +38,16 @@ async function handleRequest(req, res) {
     to: event.cpn_registered_email,
     html: receipt,
   }
+  let mail
   try {
-    const mail = await mailgun.post(`/${env.MAILGUN_DOMAIN}/messages`, { body })
+    mail = await mailgun.post(`/${env.MAILGUN_DOMAIN}/messages`, { body })
     logger.info(req.requestId, 'Receipt sent', mail.body)
   } catch (err) {
     logger.error(req.requestId, 'Failed to send the receipt', err)
-    return send(res, 502, "The receipt couldn't be sent")
+    return send(res, 502, { error: "The receipt couldn't be sent" })
   }
 
-  return { success: true, time: new Date().toISOString() }
+  return mail.body
 }
 
 module.exports = async (req, res) => {
@@ -75,10 +76,8 @@ module.exports = async (req, res) => {
     case 'OPTIONS':
       return send(res, 204, '')
     default:
-      return send(
-        res,
-        405,
-        `Invalid method, expected: POST, got: ${req.method}`
-      )
+      return send(res, 405, {
+        error: `Invalid method, expected: POST, got: ${req.method}`,
+      })
   }
 }
