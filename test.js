@@ -42,12 +42,23 @@ const baseEvent = {
 
 test.afterEach.always(() => nock.cleanAll())
 
+test('Accept OPTIONS requests', async t => {
+  const service = micro(api)
+  const url = await listen(service)
+  const res = await got(url, { method: 'OPTIONS', throwHttpErrors: false })
+
+  t.is(res.statusCode, 204)
+  t.true(res.headers['x-request-id'] != null)
+
+  service.close()
+})
+
 test('Does not accept GET requests', async t => {
   const service = micro(api)
   const url = await listen(service)
   const res = await got(url, { throwHttpErrors: false })
 
-  t.deepEqual(res.statusCode, 405)
+  t.is(res.statusCode, 405)
 
   service.close()
 })
@@ -61,7 +72,7 @@ test('Handle malformed json', async t => {
     throwHttpErrors: false,
   })
 
-  t.deepEqual(res.statusCode, 400)
+  t.is(res.statusCode, 400)
 
   service.close()
 })
@@ -75,7 +86,7 @@ test('Handle input that does not match the schema', async t => {
     json: true,
   })
 
-  t.deepEqual(res.statusCode, 400)
+  t.is(res.statusCode, 400)
 
   service.close()
 })
@@ -98,7 +109,7 @@ test('Send PDR after user updated their profile', async t => {
   })
 
   t.is(mailgun.isDone(), true)
-  t.deepEqual(res.statusCode, 200)
+  t.is(res.statusCode, 200)
 
   service.close()
 })

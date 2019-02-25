@@ -15,7 +15,7 @@ async function handleRequest(req, res) {
     logger.info(req.requestId, 'Event parsed')
   } catch (err) {
     logger.error(req.requestId, 'Failed to parse the json', err)
-    return send(res, 400, 'Malformed json', err)
+    return send(res, 400, 'Malformed json')
   }
 
   logger.info(req.requestId, 'Validating event against schema...')
@@ -43,7 +43,7 @@ async function handleRequest(req, res) {
     logger.info(req.requestId, 'Receipt sent', mail.body)
   } catch (err) {
     logger.error(req.requestId, 'Failed to send the receipt', err)
-    return send(res, 502, "The receipt couldn't be sent", err)
+    return send(res, 502, "The receipt couldn't be sent")
   }
 
   return { success: true, time: new Date().toISOString() }
