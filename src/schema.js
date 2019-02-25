@@ -16,7 +16,9 @@ const schema = Joi.object().keys({
   cpn_registered_email: Joi.string()
     .email()
     .required(),
-  user_name: Joi.string(),
+  user_name: Joi.string()
+    .required()
+    .allow(null),
   given_personal_data: Joi.array()
     .items(dataProcessed)
     .required(),
