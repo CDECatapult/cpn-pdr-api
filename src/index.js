@@ -28,7 +28,8 @@ async function handleRequest(req, res) {
   }
 
   logger.info(req.requestId, 'Creating receipt...')
-  const receipt = createReceipt(event)
+  const date = new Date().toGMTString()
+  const receipt = createReceipt(event, date)
   logger.info(req.requestId, 'Receipt created')
 
   logger.info(req.requestId, 'Sending receipt...')

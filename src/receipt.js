@@ -16,16 +16,27 @@ function header(trigger) {
   }
 }
 
-function createReceipt({
-  trigger,
-  user_name,
-  cpn_user_id,
-  given_personal_data,
-  consents,
-}) {
-  const date = new Date().toGMTString()
+function groupBy(allData, index) {
+  const purposes = new Map()
+  for (entry of allData) {
+    const key = entry[index]
+    if (!purposes.has(key)) {
+      purposes.set(key, [])
+    }
+    purposes.get(key).push(entry.description)
+  }
+  return purposes
+}
+
+function createReceipt(
+  { trigger, user_name, cpn_user_id, given_personal_data, consents },
+  date
+) {
   const allData = given_personal_data.concat(consents)
-  const shared = allData.filter(d => d.shared).map(d => d.shared)
+  const purposes = groupBy(allData, 'purpose')
+  const shared = allData
+    .filter(d => d.shared && d.shared.length)
+    .map(d => d.shared)
   if (!shared.length) {
     shared.push("We don't share your information with any third-party.")
   }
@@ -189,12 +200,12 @@ function createReceipt({
                         </td>
                         <td>
                           <ul>
-                            ${allData
+                            ${[...purposes]
                               .map(
-                                c =>
-                                  `<li style="color:#969696"><span style="color:#1E1E1E">${
-                                    c.purpose
-                                  }</span></li>`
+                                ([purpose, descriptions]) =>
+                                  `<li style="color:#969696"><span style="color:#1E1E1E">${purpose}(${descriptions.join(
+                                    ', '
+                                  )})</span></li>`
                               )
                               .join('')}
                           </ul>
