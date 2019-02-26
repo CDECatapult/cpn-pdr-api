@@ -1,8 +1,6 @@
 const html = require('dedent-js')
 const env = require('./env')
 
-const sender = env.MAIL_FROM
-
 function header(trigger) {
   switch (trigger) {
     case 'REGISTRATION':
@@ -16,16 +14,21 @@ function header(trigger) {
   }
 }
 
-function groupBy(allData, index) {
-  const purposes = new Map()
-  for (entry of allData) {
-    const key = entry[index]
-    if (!purposes.has(key)) {
-      purposes.set(key, [])
+function groupShared(allData) {
+  const shared = new Map()
+
+  for (let entry of allData) {
+    const sharedWith = entry.shared_with
+    if (sharedWith) {
+      for (let thirdParty of sharedWith) {
+        if (!shared.has(thirdParty)) {
+          shared.set(thirdParty, [])
+        }
+        shared.get(thirdParty).push(entry.description)
+      }
     }
-    purposes.get(key).push(entry.description)
   }
-  return purposes
+  return shared
 }
 
 function createReceipt(
@@ -34,12 +37,7 @@ function createReceipt(
 ) {
   const allData = given_personal_data.concat(consents)
   const purposes = new Set(allData.map(d => d.purpose))
-  const shared = allData
-    .filter(d => d.shared && d.shared.length)
-    .map(d => d.shared)
-  if (!shared.length) {
-    shared.push("We don't share your information with any third-party.")
-  }
+  const shared = groupShared(allData)
 
   return html`
     <!DOCTYPE html>
@@ -242,10 +240,17 @@ function createReceipt(
                                 ><strong>Sharing</strong></span
                               >
                             </li>
-                            ${shared.map(
-                              s =>
-                                `<li style="color:#969696"><span style="color:#1E1E1E">${s}</span></li>`
-                            )}
+                            ${shared.size
+                              ? ''
+                              : `<li style="color:#969696"><span style="color:#1E1E1E">We don't share your information with any third-party.</span></li>`}
+                            ${[...shared]
+                              .map(
+                                ([thirdParty, descriptions]) =>
+                                  `<li style="color:#969696"><span style="color:#1E1E1E">${thirdParty} (${descriptions.join(
+                                    ', '
+                                  )})</span></li>`
+                              )
+                              .join('')}
                           </ul>
                         </td>
                       </tr>
@@ -357,7 +362,7 @@ function createReceipt(
               <p>
                 <strong>The CPN platform</strong><br />
                 <a rel="nofollow" style="text-decoration:none; color:#1E1E1E"
-                  >${sender}</a
+                  >${env.MAIL_FROM}</a
                 >
               </p>
             </td>

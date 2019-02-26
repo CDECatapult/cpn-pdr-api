@@ -19,7 +19,7 @@ test('The header depends on trigger source', t => {
   t.is(receipts.size, 4)
 })
 
-test('Purpose are grouped', t => {
+test('Purpose are listed', t => {
   const input = {
     trigger: 'REGISTRATION',
     cpn_user_id: '255b2256256f8ac34000a1d1',
@@ -37,6 +37,53 @@ test('Purpose are grouped', t => {
   const receipt = createReceipt(input, date)
 
   t.is(receipt.match(/FeatureX/g).length, 1)
-  //t.true(receipt.includes('(Allow foo, Allow bar)'))
   t.true(receipt.includes(date))
+})
+
+test('Third-parties are listed and grouped', t => {
+  const input = {
+    trigger: 'REGISTRATION',
+    cpn_user_id: '255b2256256f8ac34000a1d1',
+    cpn_registered_email: 'anthony.garcia@digicatapult.org.uk',
+    user_name: null,
+    given_personal_data: [
+      { description: '#A', purpose: 'X', shared_with: ['@foo', '@bar'] },
+      { description: '#B', purpose: 'X' },
+      { description: '#C', purpose: 'Y', shared_with: ['@bar', '@baz'] },
+    ],
+    consents: [{ description: '#D', purpose: 'Z', shared_with: ['@bar'] }],
+  }
+
+  const receipt = createReceipt(input, '')
+
+  t.is(receipt.match(/@foo/g).length, 1)
+  t.is(receipt.match(/@bar/g).length, 1)
+  t.is(receipt.match(/@baz/g).length, 1)
+  t.true(receipt.includes('(#A)'))
+  t.true(receipt.includes('(#A, #C, #D)'))
+  t.true(receipt.includes('(#C)'))
+  t.false(
+    receipt.includes("We don't share your information with any third-party.")
+  )
+})
+
+test('Show text when no third-party', t => {
+  const input = {
+    trigger: 'REGISTRATION',
+    cpn_user_id: '255b2256256f8ac34000a1d1',
+    cpn_registered_email: 'anthony.garcia@digicatapult.org.uk',
+    user_name: null,
+    given_personal_data: [
+      { description: '#A', purpose: 'X' },
+      { description: '#B', purpose: 'X' },
+      { description: '#C', purpose: 'Y' },
+    ],
+    consents: [{ description: '#D', purpose: 'Z' }],
+  }
+
+  const receipt = createReceipt(input, '')
+
+  t.true(
+    receipt.includes("We don't share your information with any third-party.")
+  )
 })
