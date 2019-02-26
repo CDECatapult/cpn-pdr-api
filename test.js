@@ -2,7 +2,7 @@ process.env.LOG_LEVEL = 'silent'
 process.env.MAILGUN_API_URL = 'http://mailgun-api'
 process.env.MAILGUN_API_KEY = 'fakeAPI'
 process.env.MAILGUN_DOMAIN = 'sandbox.mailgun.org'
-process.env.MAIL_FROM = 'CPN <postmaster@projectcpn.eu>'
+process.env.MAIL_FROM = 'Postmaster <postmaster@projectcpn.eu>'
 
 const micro = require('micro')
 const test = require('ava')
@@ -100,7 +100,7 @@ test('Send PDR after user updated their profile', async t => {
   const mailgun = nock('http://mailgun-api')
     .filteringRequestBody(/html=[^&]*/g, 'html=XXX')
     .post('/sandbox.mailgun.org/messages', {
-      from: 'CPN <postmaster@projectcpn.eu>',
+      from: 'Postmaster <postmaster@projectcpn.eu>',
       subject: 'Your personal data receipt',
       to: baseEvent.cpn_registered_email,
       html: 'XXX',

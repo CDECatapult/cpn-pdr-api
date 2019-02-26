@@ -1,4 +1,4 @@
-const { cleanEnv, makeValidator, host, str, url } = require('envalid')
+const { cleanEnv, makeValidator, testOnly, host, str, url } = require('envalid')
 
 const color = makeValidator(c => {
   if (/^#(?:[0-9a-fA-F]{3}){1,2}$/.test(c)) return c.toLowerCase()
@@ -7,13 +7,21 @@ const color = makeValidator(c => {
 
 module.exports = cleanEnv(process.env, {
   LOG_LEVEL: str({ default: 'info', devDefault: 'debug' }),
-  MAILGUN_API_URL: url({ default: 'https://api.mailgun.net/v3' }),
+  MAILGUN_API_URL: url({
+    default: 'https://api.mailgun.net/v3',
+    devDefault: testOnly('http://mailgun-api'),
+  }),
   MAILGUN_API_KEY: str({
     example: '94b00922dfa91f2fc1573896c71e373d-47217ca8-837a15ba',
+    devDefault: testOnly('fakeAPI'),
   }),
-  MAILGUN_DOMAIN: host({ example: 'projectcpn.eu' }),
+  MAILGUN_DOMAIN: host({
+    example: 'projectcpn.eu',
+    devDefault: testOnly('sandbox.mailgun.org'),
+  }),
   MAIL_FROM: str({
-    example: 'CPN <postmaster@projectcpn.eu>',
+    example: 'Postmaster <postmaster@projectcpn.eu>',
+    devDefault: testOnly('CPN <postmaster@projectcpn.eu>'),
   }),
   MAIL_SUBJECT: str({ default: 'Your personal data receipt' }),
   THEME_PRIMARY_COLOR: color({ default: '#BE005A' }),
