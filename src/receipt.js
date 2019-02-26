@@ -33,7 +33,7 @@ function createReceipt(
   date
 ) {
   const allData = given_personal_data.concat(consents)
-  const purposes = groupBy(allData, 'purpose')
+  const purposes = new Set(allData.map(d => d.purpose))
   const shared = allData
     .filter(d => d.shared && d.shared.length)
     .map(d => d.shared)
@@ -202,10 +202,8 @@ function createReceipt(
                           <ul>
                             ${[...purposes]
                               .map(
-                                ([purpose, descriptions]) =>
-                                  `<li style="color:#969696"><span style="color:#1E1E1E">${purpose}(${descriptions.join(
-                                    ', '
-                                  )})</span></li>`
+                                purpose =>
+                                  `<li style="color:#969696"><span style="color:#1E1E1E">${purpose}</span></li>`
                               )
                               .join('')}
                           </ul>
