@@ -1,3 +1,6 @@
+[![CircleCI](https://circleci.com/gh/CDECatapult/cpn-pdr-api.svg?style=svg)](https://circleci.com/gh/CDECatapult/cpn-pdr-api)
+[![Known Vulnerabilities](https://snyk.io/test/github/CDECatapult/cpn-pdr-api/badge.svg)](https://snyk.io/test/github/CDECatapult/cpn-pdr-api)
+
 # Personal data receipt API
 
 This is a micro-service responsible of sending personal data receipts to data-subjects.
