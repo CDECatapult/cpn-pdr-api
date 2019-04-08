@@ -1,0 +1,128 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "CPN PDR API",
+    "version": "v1"
+  },
+  "basePath": "/pdr",
+  "paths": {
+    "/": {
+      "post": {
+        "summary": "",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User input",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UserInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success, the message was queued.",
+            "schema": {
+              "$ref": "#/definitions/Success"
+            }
+          },
+          "400": {
+            "description": "The given input is invalid (malformed json)",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "502": {
+            "description": "The receipt couldn't be sent (mailgun error)",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+  },
+  "definitions": {
+    "DataProcessed": {
+      "type": "object",
+      "required": ["description", "purpose"],
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "purpose": {
+          "type": "string"
+        },
+        "shared_with": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "UserInput": {
+      "type": "object",
+      "required": [
+        "trigger",
+        "cpn_user_id",
+        "cpn_registered_email",
+        "user_name",
+        "given_personal_data",
+        "consents"
+      ],
+      "properties": {
+        "trigger": {
+          "type": "string",
+          "enum": ["REGISTRATION", "PROFILE_UPDATE", "MANUAL_REQUEST"]
+        },
+        "cpn_user_id": {
+          "type": "string"
+        },
+        "cpn_registered_email": {
+          "type": "string"
+        },
+        "user_name": {
+          "type": "string"
+        },
+        "given_personal_data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DataProcessed"
+          }
+        }
+      }
+    },
+    "Success": {
+      "type": "object",
+      "required": ["id", "message"],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "Error": {
+      "type": "object",
+      "required": [
+        "error",
+      ],
+      "properties": {
+        "error": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
