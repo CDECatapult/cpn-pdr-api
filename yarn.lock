@@ -3788,6 +3788,18 @@ setprototypeof@1.0.3:
   resolved "https://registry.yarnpkg.com/setprototypeof/-/setprototypeof-1.0.3.tgz#66567e37043eeb4f04d91bd658c0cbefb55b8e04"
   integrity sha1-ZlZ+NwQ+608E2RvWWMDL77VbjgQ=
 
+sha2@>=1.0.0:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/sha2/-/sha2-1.0.2.tgz#80c9efa6b918f3bfe8bd71a6c78dd4c0dc0ab618"
+  integrity sha512-sQ1sFn+WN2weGkwwt25bllwocaJLyYeDrn/T221Bovc6XEHRf7NSn0KPoPQMV2+NT+RhJoStkdm4TrEGCXkKHA==
+
+sha384@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/sha384/-/sha384-1.0.0.tgz#8d1995dc24263b3934579fef7cad95aee77efd45"
+  integrity sha512-uvgLwib5FVwFFY9XFYPvSlZEeYCfL/So43I8R9IqbxAC172LVpg0VmJaTG+rsf8H6n6JM/AtFF2oJ8NybU9vlw==
+  dependencies:
+    sha2 ">=1.0.0"
+
 shebang-command@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/shebang-command/-/shebang-command-1.2.0.tgz#44aac65b695b03398968c39f363fee5deafdf1ea"

@@ -1,11 +1,13 @@
 const { json, send } = require('micro')
 const Joi = require('joi')
 const nanoid = require('nanoid')
+const sha384 = require('sha384')
 const env = require('./env')
 const logger = require('./logger')
 const schema = require('./schema')
 const createReceipt = require('./receipt')
 const mailgun = require('./mailgun')
+const blockchain = require('./blockchain')
 
 async function handleRequest(req, res) {
   logger.info(req.requestId, 'Parsing event...')
@@ -29,7 +31,8 @@ async function handleRequest(req, res) {
 
   logger.info(req.requestId, 'Creating receipt...')
   const date = new Date().toGMTString()
-  const receipt = createReceipt(event, date)
+  const hash = sha384(JSON.stringify({ date, ...event })).toString('hex')
+  const receipt = createReceipt(event, date, hash)
   logger.info(req.requestId, 'Receipt created')
 
   logger.info(req.requestId, 'Sending receipt...')
@@ -46,6 +49,14 @@ async function handleRequest(req, res) {
   } catch (err) {
     logger.error(req.requestId, 'Failed to send the receipt', err)
     return send(res, 502, { error: "The receipt couldn't be sent" })
+  }
+
+  logger.info(req.requestId, 'Storing hash in blockchain...')
+  try {
+    const res = await blockchain.post('/', { body: { hash, date } })
+    logger.info(req.requestId, 'Hash stored', hash, res.body)
+  } catch (err) {
+    logger.error(req.requestId, 'Failed to store the hash', err)
   }
 
   return mail.body
