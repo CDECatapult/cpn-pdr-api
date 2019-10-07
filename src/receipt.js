@@ -328,7 +328,15 @@ function createReceipt(
                 </tr>
                 <tr>
                   <td align="center" colspan="2">
-                    <p>Receipt ID: ${hash}</p>
+                    <p>
+                      Receipt ID:
+                      <a
+                        href="${env.BLOCKCHAIN_API_URL}/${hash}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >${hash}</a
+                      >
+                    </p>
                   </td>
                 </tr>
               </table>

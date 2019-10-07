@@ -30,9 +30,10 @@ async function handleRequest(req, res) {
   }
 
   logger.info(req.requestId, 'Creating receipt...')
-  const date = new Date().toGMTString()
+  const now = new Date()
+  const date = now.toISOString().split('.')[0] + 'Z'
   const hash = sha384(JSON.stringify({ date, ...event })).toString('hex')
-  const receipt = createReceipt(event, date, hash)
+  const receipt = createReceipt(event, now.toGMTString(), hash)
   logger.info(req.requestId, 'Receipt created')
 
   logger.info(req.requestId, 'Sending receipt...')
