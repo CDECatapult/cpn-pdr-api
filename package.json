@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "start": "micro",
+    "start": "NODE_ENV=production micro",
     "dev": "micro-dev",
     "preview": "micro-dev -p 5555 preview",
     "lint": "eslint .",
