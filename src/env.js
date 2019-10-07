@@ -8,7 +8,10 @@ const color = makeValidator(c => {
 module.exports = cleanEnv(process.env, {
   LOG_LEVEL: str({ default: 'info', devDefault: 'debug' }),
   BLOCKCHAIN_API_URL: url({ devDefault: 'http://localhost:3042' }),
-  BLOCKCHAIN_API_KEY: str({ example: 'RyKbvJqVphx8L6jLA6WFphYd6HFmzDxv' }),
+  BLOCKCHAIN_API_KEY: str({
+    example: 'RyKbvJqVphx8L6jLA6WFphYd6HFmzDxv',
+    devDefault: testOnly('blockchain_key'),
+  }),
   MAILGUN_API_URL: url({
     default: 'https://api.mailgun.net/v3',
     devDefault: testOnly('http://mailgun-api'),

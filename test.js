@@ -6,9 +6,6 @@ process.env.MAIL_FROM = 'Postmaster <postmaster@projectcpn.eu>'
 process.env.BLOCKCHAIN_API_URL = 'http://blockchain'
 process.env.BLOCKCHAIN_API_KEY = 'blockchain_key'
 
-// const StaticDate = new Date()
-// global.Date = () => StaticDate
-
 const micro = require('micro')
 const test = require('ava')
 const nock = require('nock')
@@ -104,7 +101,7 @@ test('Handle input that does not match the schema', async t => {
 
 test('Send PDR after user updated their profile', async t => {
   const event = { ...baseEvent, trigger: 'PROFILE_UPDATE' }
-  const date = new Date().toGMTString()
+  const date = new Date().toISOString()
   const hash = sha384(JSON.stringify({ date, ...event })).toString('hex')
 
   const blockchain = nock('http://blockchain')
