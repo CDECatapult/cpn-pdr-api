@@ -52,7 +52,7 @@ async function handleRequest(req, res) {
     return send(res, 502, { error: "The receipt couldn't be sent" })
   }
 
-  logger.info(req.requestId, 'Storing hash in blockchain...')
+  logger.info(req.requestId, `Storing hash (${hash}) in blockchain...`)
   try {
     const res = await blockchain.post('/', { body: { hash, date } })
     logger.info(req.requestId, 'Hash stored', hash, res.body)
