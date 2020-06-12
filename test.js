@@ -48,7 +48,9 @@ nock.disableNetConnect()
 // Whitelist localhost (graphql server)
 nock.enableNetConnect('localhost')
 
-test.afterEach.always(() => nock.cleanAll())
+test.afterEach.always(() => {
+  nock.cleanAll()
+})
 
 test('Accept OPTIONS requests', async t => {
   const service = micro(api)
