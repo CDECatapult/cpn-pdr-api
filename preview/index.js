@@ -1,4 +1,5 @@
 const createReceipt = require('../src/receipt')
+const { sha384 } = require('../src/utils')
 
 const sampleEvent = {
   trigger: 'PROFILE_UPDATE',
@@ -31,5 +32,8 @@ const sampleEvent = {
 }
 
 module.exports = () => {
-  return createReceipt(sampleEvent)
+  const now = new Date()
+  const date = now.toISOString().split('.')[0] + 'Z'
+  const hash = sha384(JSON.stringify({ date, ...sampleEvent })).toString('hex')
+  return createReceipt(sampleEvent, now.toGMTString(), hash)
 }
