@@ -4,7 +4,7 @@
   "description": "This package is part of the CPN project. It exposes an API that generates and sends the personal data receipts to the data-subjects.",
   "main": "src/index.js",
   "author": "Anthony Garcia <anthony.garcia@digicatapult.org.uk>",
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
   "private": true,
   "scripts": {
     "start": "NODE_ENV=production micro",
