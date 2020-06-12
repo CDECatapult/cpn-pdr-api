@@ -2,7 +2,7 @@ const test = require('ava')
 const Joi = require('joi')
 const schema = require('../src/schema')
 
-test('trigger = PROFILE_UPDATE | MANUAL_REQUEST | REGISTRATION', t => {
+test('trigger = PROFILE_UPDATE | MANUAL_REQUEST | REGISTRATION', (t) => {
   const profileUpdate = {
     trigger: 'PROFILE_UPDATE',
     cpn_user_id: '5b222556f8ac34000a1d1562',
@@ -75,7 +75,7 @@ test('trigger = PROFILE_UPDATE | MANUAL_REQUEST | REGISTRATION', t => {
   t.not(res6.error, null)
 })
 
-test('cpn_user_id = string (base64), mandatory', t => {
+test('cpn_user_id = string (base64), mandatory', (t) => {
   const valid = {
     trigger: 'REGISTRATION',
     cpn_user_id: '5b222556f8ac34000a1d1562',
@@ -124,7 +124,7 @@ test('cpn_user_id = string (base64), mandatory', t => {
   t.not(res4.error, null)
 })
 
-test('cpn_registered_email = string (email) required', t => {
+test('cpn_registered_email = string (email) required', (t) => {
   const withoutAt = {
     trigger: 'REGISTRATION',
     cpn_user_id: '5b222556f8ac34000a1d1562',
@@ -161,7 +161,7 @@ test('cpn_registered_email = string (email) required', t => {
   t.true(res3.error !== null)
 })
 
-test('user_name = string', t => {
+test('user_name = string', (t) => {
   const isNull = {
     trigger: 'REGISTRATION',
     cpn_user_id: '5b222556f8ac34000a1d1562',
@@ -198,7 +198,7 @@ test('user_name = string', t => {
   t.is(res3.error, null)
 })
 
-test('given_personal_data contains description, purpose and possibly shared', t => {
+test('given_personal_data contains description, purpose and possibly shared', (t) => {
   const empty = {
     trigger: 'REGISTRATION',
     cpn_user_id: '5b222556f8ac34000a1d1562',
@@ -336,7 +336,7 @@ test('given_personal_data contains description, purpose and possibly shared', t 
   t.not(res11.error, null)
 })
 
-test('consent contains description, purpose and possibly shared', t => {
+test('consent contains description, purpose and possibly shared', (t) => {
   const noArray = {
     trigger: 'REGISTRATION',
     cpn_user_id: '5b222556f8ac34000a1d1562',

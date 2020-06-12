@@ -37,7 +37,7 @@ function createReceipt(
   hash
 ) {
   const allData = given_personal_data.concat(consents)
-  const purposes = new Set(allData.map(d => d.purpose))
+  const purposes = new Set(allData.map((d) => d.purpose))
   const shared = groupShared(allData)
 
   return html`
@@ -124,10 +124,8 @@ function createReceipt(
                           <ul>
                             ${given_personal_data
                               .map(
-                                pi =>
-                                  `<li style="color:#969696"><span style="color:#1E1E1E">${
-                                    pi.description
-                                  }</span></li>`
+                                (pi) =>
+                                  `<li style="color:#969696"><span style="color:#1E1E1E">${pi.description}</span></li>`
                               )
                               .join('')}
                           </ul>
@@ -160,10 +158,8 @@ function createReceipt(
                                 <ul>
                                   ${consents
                                     .map(
-                                      c =>
-                                        `<li style="color:#969696"><span style="color:#1E1E1E">${
-                                          c.description
-                                        }</span></li>`
+                                      (c) =>
+                                        `<li style="color:#969696"><span style="color:#1E1E1E">${c.description}</span></li>`
                                     )
                                     .join('')}
                                 </ul>
@@ -201,7 +197,7 @@ function createReceipt(
                           <ul>
                             ${[...purposes]
                               .map(
-                                purpose =>
+                                (purpose) =>
                                   `<li style="color:#969696"><span style="color:#1E1E1E">${purpose}</span></li>`
                               )
                               .join('')}

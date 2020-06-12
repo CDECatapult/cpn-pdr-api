@@ -11,8 +11,8 @@ const test = require('ava')
 const nock = require('nock')
 const listen = require('test-listen')
 const got = require('got')
-const sha384 = require('sha384')
 const api = require('./src')
+const { sha384 } = require('./src/utils')
 
 const baseEvent = {
   cpn_user_id: '5b222556f8ac34000a1d1562',
@@ -43,9 +43,16 @@ const baseEvent = {
   ],
 }
 
-test.afterEach.always(() => nock.cleanAll())
+// Disable all network requests to prevent accidental access to external APIs
+nock.disableNetConnect()
+// Whitelist localhost (graphql server)
+nock.enableNetConnect('localhost')
 
-test('Accept OPTIONS requests', async t => {
+test.afterEach.always(() => {
+  nock.cleanAll()
+})
+
+test('Accept OPTIONS requests', async (t) => {
   const service = micro(api)
   const url = await listen(service)
   const res = await got(url, { method: 'OPTIONS', throwHttpErrors: false })
@@ -57,7 +64,7 @@ test('Accept OPTIONS requests', async t => {
   service.close()
 })
 
-test('Does not accept GET requests', async t => {
+test('Does not accept GET requests', async (t) => {
   const service = micro(api)
   const url = await listen(service)
   const res = await got(url, { throwHttpErrors: false, json: true })
@@ -68,7 +75,7 @@ test('Does not accept GET requests', async t => {
   service.close()
 })
 
-test('Handle malformed json', async t => {
+test('Handle malformed json', async (t) => {
   const service = micro(api)
   const url = await listen(service)
   const res = await got.post(url, {
@@ -84,7 +91,7 @@ test('Handle malformed json', async t => {
   service.close()
 })
 
-test('Handle input that does not match the schema', async t => {
+test('Handle input that does not match the schema', async (t) => {
   const service = micro(api)
   const url = await listen(service)
   const res = await got.post(url, {
@@ -99,9 +106,10 @@ test('Handle input that does not match the schema', async t => {
   service.close()
 })
 
-test('Send PDR after user updated their profile', async t => {
+test('Send PDR after user updated their profile', async (t) => {
   const event = { ...baseEvent, trigger: 'PROFILE_UPDATE' }
-  const date = new Date().toISOString()
+  const now = new Date()
+  const date = now.toISOString().split('.')[0] + 'Z'
   const hash = sha384(JSON.stringify({ date, ...event })).toString('hex')
 
   const blockchain = nock('http://blockchain')

@@ -1,4 +1,4 @@
-FROM node:10.15.1-alpine
+FROM node:12.14.0-alpine
 
 WORKDIR /cpn-pdr-api
 
