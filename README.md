@@ -81,4 +81,4 @@ Additionally, it is possible to change the behaviour of the service by using tho
 | MAIL_SUBJECT        | string | Your personal data receipt | The subject of the email                                                                               |
 | THEME_PRIMARY_COLOR | color  | #BE005A                    | The main colour used in the email                                                                      |
 | THEME_ACCENT_COLOR  | color  | #FF3C7D                    | The accent colour used in the email                                                                    |
-| GDPR_EMAIL          | email  | none                       | The gdpr email address, shown in the footer                                                            |
+| GDPR_EMAIL          | email  | none                       | Email address for the GDPR mailbox, shown in the footer                                                |
