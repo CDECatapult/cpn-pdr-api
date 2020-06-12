@@ -345,12 +345,15 @@ function createReceipt(
                 achieve compliance to the European General Data Protection
                 Regulation (GDPR).
               </p>
+              ${env.GDPR_EMAIL
+                ? `<p>For any GDPR queries, please contact: <a href="mailto:${env.GDPR_EMAIL}">${env.GDPR_EMAIL}</a></p>`
+                : ''}
               <p>
                 <a
                   href="https://www.projectcpn.eu"
                   style="font-weight: bold;padding: 0px;background-color: ${env.THEME_PRIMARY_COLOR};color: #ffffff;border: 11px solid ${env.THEME_PRIMARY_COLOR};border-radius: 5px;word-wrap: break-word;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;text-decoration: none;"
                   target="_blank"
-                  title="How to enter the UXUK Awards"
+                  title="Project CPN"
                   >Find out more</a
                 >
               </p>

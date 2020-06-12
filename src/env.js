@@ -1,4 +1,4 @@
-const { cleanEnv, makeValidator, host, str, url } = require('envalid')
+const { cleanEnv, makeValidator, email, host, str, url } = require('envalid')
 
 const color = makeValidator((c) => {
   if (/^#(?:[0-9a-fA-F]{3}){1,2}$/.test(c)) return c.toLowerCase()
@@ -26,4 +26,5 @@ module.exports = cleanEnv(process.env, {
   MAIL_SUBJECT: str({ default: 'Your personal data receipt' }),
   THEME_PRIMARY_COLOR: color({ default: '#BE005A' }),
   THEME_ACCENT_COLOR: color({ default: '#FF3C7D' }),
+  GDPR_EMAIL: email({ default: undefined }),
 })

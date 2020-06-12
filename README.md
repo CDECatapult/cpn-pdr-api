@@ -64,13 +64,13 @@ The service will always reply with a valid JSON. The format is either:
 The micro-service can be configured using environment variables.
 All of the variables listed below _must_ be passed when the service run:
 
-| Name            | Type   | Example                                            | Description                                                                      |
-| --------------- | ------ | -------------------------------------------------- | -------------------------------------------------------------------------------- |
-| BLOCKCHAIN_API_URL | url | http://localhost:3042                              | The url of the blockchain API                                                    |
-| BLOCKCHAIN_API_KEY | string | RyKbvJqVphx8L6jLA6WFphYd6HFmzDxv                | The API key to send to the blockchain API                                        |
-| MAILGUN_API_KEY | string | 94b00921dfa91f2fc1573196c71e373d-47217ca8-837a15ba | [See](https://documentation.mailgun.com/en/latest/api-intro.html#authentication) |
-| MAILGUN_DOMAIN  | host   | projectcpn.eu                                      | The domain configured in Mailgun                                                 |
-| MAIL_FROM       | string | Postmaster <postmaster@sandboxXXX.mailgun.org>     | Email address for `From` header                                                  |
+| Name               | Type   | Example                                            | Description                                                                      |
+| ------------------ | ------ | -------------------------------------------------- | -------------------------------------------------------------------------------- |
+| BLOCKCHAIN_API_URL | url    | http://localhost:3042                              | The url of the blockchain API                                                    |
+| BLOCKCHAIN_API_KEY | string | RyKbvJqVphx8L6jLA6WFphYd6HFmzDxv                   | The API key to send to the blockchain API                                        |
+| MAILGUN_API_KEY    | string | 94b00921dfa91f2fc1573196c71e373d-47217ca8-837a15ba | [See](https://documentation.mailgun.com/en/latest/api-intro.html#authentication) |
+| MAILGUN_DOMAIN     | host   | projectcpn.eu                                      | The domain configured in Mailgun                                                 |
+| MAIL_FROM          | string | Postmaster <postmaster@sandboxXXX.mailgun.org>     | Email address for `From` header                                                  |
 
 Additionally, it is possible to change the behaviour of the service by using those variables:
 
@@ -81,3 +81,4 @@ Additionally, it is possible to change the behaviour of the service by using tho
 | MAIL_SUBJECT        | string | Your personal data receipt | The subject of the email                                                                               |
 | THEME_PRIMARY_COLOR | color  | #BE005A                    | The main colour used in the email                                                                      |
 | THEME_ACCENT_COLOR  | color  | #FF3C7D                    | The accent colour used in the email                                                                    |
+| GDPR_EMAIL          | email  | none                       | The gdpr email address, shown in the footer                                                            |
