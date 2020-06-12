@@ -52,7 +52,7 @@ test.afterEach.always(() => {
   nock.cleanAll()
 })
 
-test('Accept OPTIONS requests', async t => {
+test('Accept OPTIONS requests', async (t) => {
   const service = micro(api)
   const url = await listen(service)
   const res = await got(url, { method: 'OPTIONS', throwHttpErrors: false })
@@ -64,7 +64,7 @@ test('Accept OPTIONS requests', async t => {
   service.close()
 })
 
-test('Does not accept GET requests', async t => {
+test('Does not accept GET requests', async (t) => {
   const service = micro(api)
   const url = await listen(service)
   const res = await got(url, { throwHttpErrors: false, json: true })
@@ -75,7 +75,7 @@ test('Does not accept GET requests', async t => {
   service.close()
 })
 
-test('Handle malformed json', async t => {
+test('Handle malformed json', async (t) => {
   const service = micro(api)
   const url = await listen(service)
   const res = await got.post(url, {
@@ -91,7 +91,7 @@ test('Handle malformed json', async t => {
   service.close()
 })
 
-test('Handle input that does not match the schema', async t => {
+test('Handle input that does not match the schema', async (t) => {
   const service = micro(api)
   const url = await listen(service)
   const res = await got.post(url, {
@@ -106,7 +106,7 @@ test('Handle input that does not match the schema', async t => {
   service.close()
 })
 
-test('Send PDR after user updated their profile', async t => {
+test('Send PDR after user updated their profile', async (t) => {
   const event = { ...baseEvent, trigger: 'PROFILE_UPDATE' }
   const now = new Date()
   const date = now.toISOString().split('.')[0] + 'Z'

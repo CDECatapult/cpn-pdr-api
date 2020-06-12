@@ -1,7 +1,7 @@
 const test = require('ava')
 const { sha384 } = require('../src/utils')
 
-test('sha384', t => {
+test('sha384', (t) => {
   t.is(
     sha384('🦄'),
     'a9d4dfb503394bd9701d60eb5fb1d7fb800580b43d874165103b16d311fb5c97545cb89f06c31f30e219f5b603e834ca'

@@ -1,6 +1,6 @@
 const { cleanEnv, makeValidator, testOnly, host, str, url } = require('envalid')
 
-const color = makeValidator(c => {
+const color = makeValidator((c) => {
   if (/^#(?:[0-9a-fA-F]{3}){1,2}$/.test(c)) return c.toLowerCase()
   else throw new Error('Expected a string in hex color format')
 })

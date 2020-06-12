@@ -1,7 +1,7 @@
 const test = require('ava')
 const createReceipt = require('../src/receipt')
 
-test('The header depends on trigger source', t => {
+test('The header depends on trigger source', (t) => {
   const base = {
     cpn_user_id: '5b222556f8ac34000a1d1562',
     cpn_registered_email: 'anthony.garcia+u3@digicatapult.org.uk',
@@ -19,7 +19,7 @@ test('The header depends on trigger source', t => {
   t.is(receipts.size, 4)
 })
 
-test('Purpose are listed', t => {
+test('Purpose are listed', (t) => {
   const input = {
     trigger: 'REGISTRATION',
     cpn_user_id: '255b2256256f8ac34000a1d1',
@@ -40,7 +40,7 @@ test('Purpose are listed', t => {
   t.true(receipt.includes(date))
 })
 
-test('Third-parties are listed and grouped', t => {
+test('Third-parties are listed and grouped', (t) => {
   const input = {
     trigger: 'REGISTRATION',
     cpn_user_id: '255b2256256f8ac34000a1d1',
@@ -67,7 +67,7 @@ test('Third-parties are listed and grouped', t => {
   )
 })
 
-test('Show text when no third-party', t => {
+test('Show text when no third-party', (t) => {
   const input = {
     trigger: 'REGISTRATION',
     cpn_user_id: '255b2256256f8ac34000a1d1',
