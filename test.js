@@ -3,12 +3,15 @@ process.env.MAILGUN_API_URL = 'http://mailgun-api'
 process.env.MAILGUN_API_KEY = 'fakeAPI'
 process.env.MAILGUN_DOMAIN = 'sandbox.mailgun.org'
 process.env.MAIL_FROM = 'Postmaster <postmaster@projectcpn.eu>'
+process.env.BLOCKCHAIN_API_URL = 'http://blockchain'
+process.env.BLOCKCHAIN_API_KEY = 'blockchain_key'
 
 const micro = require('micro')
 const test = require('ava')
 const nock = require('nock')
 const listen = require('test-listen')
 const got = require('got')
+const sha384 = require('sha384')
 const api = require('./src')
 
 const baseEvent = {
@@ -97,6 +100,13 @@ test('Handle input that does not match the schema', async t => {
 })
 
 test('Send PDR after user updated their profile', async t => {
+  const event = { ...baseEvent, trigger: 'PROFILE_UPDATE' }
+  const date = new Date().toISOString()
+  const hash = sha384(JSON.stringify({ date, ...event })).toString('hex')
+
+  const blockchain = nock('http://blockchain')
+    .post('/', { hash, date })
+    .reply(204)
   const mailgun = nock('http://mailgun-api')
     .filteringRequestBody(/html=[^&]*/g, 'html=XXX')
     .post('/sandbox.mailgun.org/messages', {
@@ -112,11 +122,12 @@ test('Send PDR after user updated their profile', async t => {
   const service = micro(api)
   const url = await listen(service)
   const res = await got.post(url, {
-    body: { ...baseEvent, trigger: 'PROFILE_UPDATE' },
+    body: event,
     json: true,
   })
 
   t.is(mailgun.isDone(), true)
+  t.is(blockchain.isDone(), true)
   t.is(res.statusCode, 200)
   t.is(res.body.error, undefined)
   t.is(res.body.message, 'Queued. Thank you.')

@@ -66,6 +66,8 @@ All of the variables listed below _must_ be passed when the service run:
 
 | Name            | Type   | Example                                            | Description                                                                      |
 | --------------- | ------ | -------------------------------------------------- | -------------------------------------------------------------------------------- |
+| BLOCKCHAIN_API_URL | url | http://localhost:3042                              | The url of the blockchain API                                                    |
+| BLOCKCHAIN_API_KEY | string | RyKbvJqVphx8L6jLA6WFphYd6HFmzDxv                | The API key to send to the blockchain API                                        |
 | MAILGUN_API_KEY | string | 94b00921dfa91f2fc1573196c71e373d-47217ca8-837a15ba | [See](https://documentation.mailgun.com/en/latest/api-intro.html#authentication) |
 | MAILGUN_DOMAIN  | host   | projectcpn.eu                                      | The domain configured in Mailgun                                                 |
 | MAIL_FROM       | string | Postmaster <postmaster@sandboxXXX.mailgun.org>     | Email address for `From` header                                                  |

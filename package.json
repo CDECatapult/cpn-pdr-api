@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "start": "micro",
+    "start": "NODE_ENV=production micro",
     "dev": "micro-dev",
     "preview": "micro-dev -p 5555 preview",
     "lint": "eslint .",
@@ -20,7 +20,8 @@
     "joi": "^14.3.1",
     "micro": "^9.3.3",
     "nanoid": "^2.0.1",
-    "pino": "^5.11.1"
+    "pino": "^5.11.1",
+    "sha384": "^1.0.0"
   },
   "devDependencies": {
     "ava": "^1.2.1",

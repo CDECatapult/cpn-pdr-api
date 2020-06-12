@@ -32,8 +32,9 @@ function groupShared(allData) {
 }
 
 function createReceipt(
-  { trigger, user_name, cpn_user_id, given_personal_data, consents },
-  date
+  { trigger, user_name, given_personal_data, consents },
+  date,
+  hash
 ) {
   const allData = given_personal_data.concat(consents)
   const purposes = new Set(allData.map(d => d.purpose))
@@ -327,7 +328,15 @@ function createReceipt(
                 </tr>
                 <tr>
                   <td align="center" colspan="2">
-                    <p>Receipt ID: ${cpn_user_id}</p>
+                    <p>
+                      Receipt ID:
+                      <a
+                        href="${env.BLOCKCHAIN_API_URL}/${hash}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >${hash}</a
+                      >
+                    </p>
                   </td>
                 </tr>
               </table>
