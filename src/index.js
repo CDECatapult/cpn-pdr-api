@@ -1,13 +1,13 @@
 const { json, send } = require('micro')
 const Joi = require('joi')
 const nanoid = require('nanoid')
-const sha384 = require('sha384')
 const env = require('./env')
 const logger = require('./logger')
 const schema = require('./schema')
 const createReceipt = require('./receipt')
 const mailgun = require('./mailgun')
 const blockchain = require('./blockchain')
+const { sha384 } = require('./utils')
 
 async function handleRequest(req, res) {
   logger.info(req.requestId, 'Parsing event...')

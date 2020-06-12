@@ -11,8 +11,8 @@ const test = require('ava')
 const nock = require('nock')
 const listen = require('test-listen')
 const got = require('got')
-const sha384 = require('sha384')
 const api = require('./src')
+const { sha384 } = require('./src/utils')
 
 const baseEvent = {
   cpn_user_id: '5b222556f8ac34000a1d1562',
