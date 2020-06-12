@@ -11,7 +11,7 @@
     "dev": "micro-dev",
     "preview": "micro-dev -p 5555 preview",
     "lint": "eslint .",
-    "test": "ava"
+    "test": "ava -s"
   },
   "dependencies": {
     "dedent-js": "^1.0.1",

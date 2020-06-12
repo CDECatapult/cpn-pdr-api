@@ -43,6 +43,11 @@ const baseEvent = {
   ],
 }
 
+// Disable all network requests to prevent accidental access to external APIs
+nock.disableNetConnect()
+// Whitelist localhost (graphql server)
+nock.enableNetConnect('localhost')
+
 test.afterEach.always(() => nock.cleanAll())
 
 test('Accept OPTIONS requests', async t => {
@@ -101,7 +106,8 @@ test('Handle input that does not match the schema', async t => {
 
 test('Send PDR after user updated their profile', async t => {
   const event = { ...baseEvent, trigger: 'PROFILE_UPDATE' }
-  const date = new Date().toISOString()
+  const now = new Date()
+  const date = now.toISOString().split('.')[0] + 'Z'
   const hash = sha384(JSON.stringify({ date, ...event })).toString('hex')
 
   const blockchain = nock('http://blockchain')
