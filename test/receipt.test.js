@@ -1,3 +1,11 @@
+process.env.LOG_LEVEL = 'silent'
+process.env.MAILGUN_API_URL = 'http://mailgun-api'
+process.env.MAILGUN_API_KEY = 'fakeAPI'
+process.env.MAILGUN_DOMAIN = 'sandbox.mailgun.org'
+process.env.MAIL_FROM = 'Postmaster <postmaster@projectcpn.eu>'
+process.env.BLOCKCHAIN_API_URL = 'http://blockchain'
+process.env.BLOCKCHAIN_API_KEY = 'blockchain_key'
+
 const test = require('ava')
 const createReceipt = require('../src/receipt')
 
