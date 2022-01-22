@@ -19,7 +19,7 @@
     "got": "^9.6.0",
     "joi": "^14.3.1",
     "micro": "^9.3.4",
-    "nanoid": "^3.1.9",
+    "nanoid": "^3.1.31",
     "pino": "^6.3.2"
   },
   "devDependencies": {
